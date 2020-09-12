@@ -1,7 +1,10 @@
 const puppeteer = require('puppeteer');
 
 let scrape = async(url) => {
-	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disabled-setuid-sandbox']});
+	const browser = await puppeteer.launch({
+		waitUntil: 'load',
+		timeout: 0,
+		args: ['--no-sandbox', '--disabled-setuid-sandbox']});
 	const reviewPage = await browser.newPage();
 
 	await reviewPage.goto(url);
