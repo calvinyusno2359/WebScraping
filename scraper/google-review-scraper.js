@@ -7,7 +7,7 @@ let scrape = async(url) => {
 		args: ['--no-sandbox', '--disabled-setuid-sandbox']});
 	const reviewPage = await browser.newPage();
 
-	await reviewPage.goto(url);
+	await reviewPage.goto(url, {waitUntil: 'networkidle2'});
 	await reviewPage.waitForSelector('.widget-pane-visible')
 
 	const metadata = await reviewPage.evaluate(() => {
@@ -20,6 +20,7 @@ let scrape = async(url) => {
 		}
 	})
 
+	// NOTE: nned to wrap this in a loop, to get all reviews
 	const reviews = await reviewPage.evaluate(() => {
 		let fullName = document.querySelector('.section-review-title').innerText;
 		let postDate = document.querySelector('.section-review-publish-date').innerText;
