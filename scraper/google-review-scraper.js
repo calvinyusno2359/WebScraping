@@ -2,12 +2,22 @@ const puppeteer = require('puppeteer');
 
 let scrape = async(url) => {
 	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disabled-setuid-sandbox']});
-	const page = await browser.newPage();
+	const reviewPage = await browser.newPage();
 
-	await page.goto(url);
-	await page.waitForSelector('.widget-pane-visible')
+	await reviewPage.goto(url);
+	await reviewPage.waitForSelector('.widget-pane-visible')
 
-	const result = await page.evaluate(() => {
+	const metadata = await reviewPage.evaluate(() => {
+		let aggregateRating = document.querySelector('.gm2-display-2').innerText;
+		let totalReviews = document.querySelector('.gm2-caption').innerText;
+
+		return {
+			aggregateRating,
+			totalReviews,
+		}
+	})
+
+	const reviews = await reviewPage.evaluate(() => {
 		let fullName = document.querySelector('.section-review-title').innerText;
 		let postDate = document.querySelector('.section-review-publish-date').innerText;
 		let starRating = document.querySelector('.section-review-stars').getAttribute('aria-label');
@@ -22,11 +32,17 @@ let scrape = async(url) => {
 	});
 
 	browser.close();
-	return result;
+
+	return {
+		metadata,
+		reviews
+	};
 };
 
-let url = 'https://www.google.com/maps/place/Nexus+Clinic+Kuala+Lumpur+(Skin+%26+Hair+Aesthetic+Clinic)/@3.1524901,101.7099621,17z/data=!3m1!4b1!4m7!3m6!1s0x0:0x24ca69d549f44339!8m2!3d3.1524901!4d101.7121508!9m1!1b1'
+// let url = 'https://www.google.com/maps/place/Nexus+Clinic+Kuala+Lumpur+(Skin+%26+Hair+Aesthetic+Clinic)/@3.1524901,101.7099621,17z/data=!3m1!4b1!4m7!3m6!1s0x0:0x24ca69d549f44339!8m2!3d3.1524901!4d101.7121508!9m1!1b1'
 
-scrape(url).then((result) => {
-	console.log(result);
-})
+// scrape(url).then(result => {
+// 	console.log(result);
+// })
+
+exports.scrape = scrape;
