@@ -57,14 +57,14 @@ let getTitle = (url) => {
 	return title
 }
 
-let urls = jb_urls1; 		// NOTE: select urls list
-let folder = folders[1] // NOTE: select folder accordingly
+let urls = penang_urls1; 		// NOTE: select urls list
+let folder = folders[2] 		// NOTE: select folder accordingly
 
 for (url of urls) {
 	let title = getTitle(url);
 	greviewscraper.scrape(url).then(result => {
 		const csvWriter = createCsvWriter({
-		  path: `./raw/${folder}/${title}`,
+		  path: `./raw/${folder}/${title}.csv`,
 		  header: [
 		    {id: 'fullNames', title: 'fullNames'},
 		    {id: 'postDates', title: 'postDates'},
