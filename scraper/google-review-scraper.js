@@ -94,12 +94,22 @@ let scrape = async(url) => {
 	});
 
 	// TODO: Export to csv for analysis
+	let data = [];
+	for (var i=0; i<countReviews; i++) {
+		data.push({
+			'fullNames': reviews.fullNames[i],
+			'postDates': reviews.postDates[i],
+			'starRatings': reviews.starRatings[i],
+			'postReviews': reviews.postReviews[i]
+		});
+	};
 
 	browser.close();
 
 	return {
 		metadata,
-		reviews
+		countReviews,
+		data
 	};
 };
 
