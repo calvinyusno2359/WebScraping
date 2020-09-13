@@ -68,7 +68,7 @@ let scrape = async(url) => {
 		}
 		let postDateElements = document.getElementsByClassName('section-review-publish-date');
 		let postDates = [];
-		for(let elements of postDateElements) {
+		for (let elements of postDateElements) {
 			postDates.push(elements.innerText);
 		}
 
@@ -80,7 +80,7 @@ let scrape = async(url) => {
 
 		let postReviewElements = document.getElementsByClassName('section-review-text');
 		let postReviews = [];
-		for(let elements of postReviewElements) {
+		for (let elements of postReviewElements) {
 			postReviews.push(elements.innerText);
 		}
 
