@@ -34,7 +34,6 @@ let scrape = async(url) => {
 		}
 	});*/
 
-
 	// Scroll till all reviews loaded
 	let countReviews = await reviewPage.evaluate(() => {
 		return Number(document.querySelectorAll(".section-review-content").length);
@@ -48,7 +47,7 @@ let scrape = async(url) => {
 			let scrollArea = document.querySelector(".section-scrollbox.scrollable-y.scrollable-show");
 			scrollArea.scrollTo(0, scrollArea.scrollHeight);
 		});
-		await reviewPage.waitForFunction(`document.querySelector('.section-scrollbox.scrollable-y.scrollable-show').scrollHeight>${prevHeight}`);
+		await reviewPage.waitForFunction(`document.querySelector('.section-scrollbox.scrollable-y.scrollable-show').scrollHeight>${prevHeight}`, { timeout: 0 });
 		await reviewPage.waitForTimeout(100);
 		countReviews = await reviewPage.evaluate(() => {
 			return document.querySelectorAll(".section-review-content").length;
