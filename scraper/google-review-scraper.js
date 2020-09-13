@@ -10,7 +10,6 @@ let scrape = async(url) => {
 	await reviewPage.goto(url, {waitUntil: 'networkidle2'});
 	await reviewPage.waitForSelector('.widget-pane-visible');
 
-
 	const metadata = await reviewPage.evaluate(() => {
 		let aggregateRating = document.querySelector('div.gm2-display-2').innerText;
 		let totalReviews = Number(document.querySelector('div.gm2-caption').innerText.split(" ")[0]);
@@ -42,7 +41,6 @@ let scrape = async(url) => {
 	});
 
 	while (countReviews < metadata.totalReviews) {
-
 		let prevHeight = await reviewPage.evaluate(() => {
 			return document.querySelector(".section-scrollbox.scrollable-y.scrollable-show").scrollHeight;
 		});
@@ -93,14 +91,16 @@ let scrape = async(url) => {
 		}
 	});
 
-	// TODO: Export to csv for analysis
+	// Restructure data for easy csv conversion
 	let data = [];
 	for (var i=0; i<countReviews; i++) {
 		data.push({
 			'fullNames': reviews.fullNames[i],
 			'postDates': reviews.postDates[i],
 			'starRatings': reviews.starRatings[i],
-			'postReviews': reviews.postReviews[i]
+			'postReviews': reviews.postReviews[i],
+			'totalReviews': metadata.totalReviews,
+			'aggregateRating': metadata.aggregateRating
 		});
 	};
 
