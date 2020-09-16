@@ -50,15 +50,15 @@ let penang_urls2 = [
 	'https://www.google.com/maps/place/Regen+Clinic/@5.4305591,100.2975977,17z/data=!4m7!3m6!1s0x304ac255f58da3a9:0xd539f352cc253b43!8m2!3d5.4305591!4d100.2997864!9m1!1b1'
 	];
 
-let folders = ['KL', 'JB', 'Penang']
+let folders = ['KL', 'JB', 'Penang'];
 
 let getTitle = (url) => {
 	title = url.split('/')[5].split('+').join('_');
 	return title
-}
+};
 
 let urls = penang_urls1; 		// NOTE: select urls list
-let folder = folders[2] 		// NOTE: select folder accordingly
+let folder = folders[2];		// NOTE: select folder accordingly
 
 for (url of urls) {
 	let title = getTitle(url);
