@@ -40,6 +40,13 @@ let penang_urls1 = [
 	'https://www.google.com/maps/place/A.M+Clinic/@5.3890103,100.3009933,17z/data=!4m7!3m6!1s0x304ac19504375b4d:0x481d0127a342d0ac!8m2!3d5.3890103!4d100.303182!9m1!1b1'
 	];
 
+let wellaholic_urls = [
+	'https://www.google.com/maps/place/Wellaholic+(Tai+Seng+HQ)/@1.3361512,103.8842078,17z/data=!3m1!4b1!4m5!3m4!1s0x31da171a878682d3:0x6b984d575bdd7b6e!8m2!3d1.3361512!4d103.8863965',
+	'https://www.google.com/maps/place/Wellaholic+(Orchard+Outlet)/@1.3055707,103.8279766,17z/data=!3m1!4b1!4m5!3m4!1s0x31da19523875f401:0xc49cb7e8e72574e9!8m2!3d1.3055707!4d103.8301653',
+	'https://www.google.com/maps/place/Wellaholic+(Lavender+Outlet)/@1.309722,103.8606713,17z/data=!3m1!4b1!4m5!3m4!1s0x31da19b5af6ffcb9:0x3a83f93894b60a8b!8m2!3d1.309722!4d103.86286',
+	'https://www.google.com/maps/place/Wellaholic+(Tanjong+Pagar)/@1.2798954,103.8449751,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1995279cad3d:0x3c79108b8ae8e9c3!8m2!3d1.2798954!4d103.8471638'
+	]
+
 // PROBLEM: These links I couldn't scrape for some reason, not a lot of reviews but significant
 let kl_urls2 = [
 	'https://www.google.com/maps/place/DC+Clinic-+Skin+%26+Medical+Aesthetic+Clinic+in+Kuala+Lumpur/@3.1312521,101.6684164,17z/data=!4m7!3m6!1s0x31cc49f33cd6833b:0xd8e1f08c82b5be59!8m2!3d3.1312521!4d101.6706051!9m1!1b1',
@@ -50,15 +57,15 @@ let penang_urls2 = [
 	'https://www.google.com/maps/place/Regen+Clinic/@5.4305591,100.2975977,17z/data=!4m7!3m6!1s0x304ac255f58da3a9:0xd539f352cc253b43!8m2!3d5.4305591!4d100.2997864!9m1!1b1'
 	];
 
-let folders = ['KL', 'JB', 'Penang'];
+let folders = ['KL', 'JB', 'Penang', 'Wellaholic'];
 
 let getTitle = (url) => {
 	title = url.split('/')[5].split('+').join('_');
 	return title
 };
 
-let urls = penang_urls1; 		// NOTE: select urls list
-let folder = folders[2];		// NOTE: select folder accordingly
+let urls = wellaholic_urls; 		// NOTE: select urls list
+let folder = folders[3];		// NOTE: select folder accordingly
 
 for (url of urls) {
 	let title = getTitle(url);
