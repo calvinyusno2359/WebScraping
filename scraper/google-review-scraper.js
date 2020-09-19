@@ -114,7 +114,7 @@ let scrape = async(url) => {
 	};
 };
 
-scrape('https://www.google.com/maps/place/Enhanze+Medical+Aesthetics+%26+Laser+Clinic/@3.126224,101.6415473,17z/data=!4m7!3m6!1s0x31cc49695e894d4d:0xdd00855b10491174!8m2!3d3.126224!4d101.643736!9m1!1b1')
-	.then(result=> {console.log(result)});
+// scrape('https://www.google.com/maps/place/Enhanze+Medical+Aesthetics+%26+Laser+Clinic/@3.126224,101.6415473,17z/data=!4m7!3m6!1s0x31cc49695e894d4d:0xdd00855b10491174!8m2!3d3.126224!4d101.643736!9m1!1b1')
+// 	.then(result=> {console.log(result)});
 
 exports.scrape = scrape;
