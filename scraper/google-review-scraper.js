@@ -39,6 +39,7 @@ let scrape = async(url) => {
 		return Number(document.querySelectorAll(".section-review-content").length);
 	});
 
+	// TODO: Fix loop
 	while (countReviews < metadata.totalReviews) {
 		let prevHeight = await reviewPage.evaluate(() => {
 			return document.querySelector(".section-scrollbox.scrollable-y.scrollable-show").scrollHeight;
@@ -47,42 +48,43 @@ let scrape = async(url) => {
 			let scrollArea = document.querySelector(".section-scrollbox.scrollable-y.scrollable-show");
 			scrollArea.scrollTo(0, scrollArea.scrollHeight);
 		});
-		await reviewPage.waitForFunction(`document.querySelector('.section-scrollbox.scrollable-y.scrollable-show').scrollHeight>${prevHeight}`, { timeout: 0 });
+		await reviewPage.waitForFunction(`document.querySelector('.section-scrollbox.scrollable-y.scrollable-show').scrollHeight>${prevHeight}`, { timeout:0});
 		await reviewPage.waitForTimeout(100);
 		countReviews = await reviewPage.evaluate(() => {
-			return document.querySelectorAll(".section-review-content").length;
+			return Number(document.querySelectorAll(".section-review-content").length);
 		});
 	}
 
 	// Scrape
 	const reviews = await reviewPage.evaluate(() => {
-		let countReviews = Number(document.querySelectorAll(".section-review-content").length);
 		// Fetch all reviews
 		let fullNameElements = document.getElementsByClassName('section-review-title');
 		let fullNames = [];
-		for (let elements of fullNameElements) {
-			fullNames.push(elements.innerText);
+		for (let element of fullNameElements) {
+			fullNames.push(element.innerText);
 		}
 		let postDateElements = document.getElementsByClassName('section-review-publish-date');
 		let postDates = [];
-		for (let elements of postDateElements) {
-			postDates.push(elements.innerText);
+		for (let element of postDateElements) {
+			postDates.push(element.innerText);
 		}
 
 		let starRatingElements = document.getElementsByClassName('section-review-stars');
 		let starRatings = [];
-		for (let elements of starRatingElements) {
-			starRatings.push(elements.getAttribute('aria-label').charAt(1));
+		for (let element of starRatingElements) {
+			starRatings.push(element.getAttribute('aria-label').charAt(1));
 		}
 
 		let postReviewElements = document.getElementsByClassName('section-review-text');
 		let postReviews = [];
-		for (let elements of postReviewElements) {
-			postReviews.push(elements.innerText);
+		for (let element of postReviewElements) {
+			if (element.tagName.toLowerCase()==='span') {
+				postReviews.push(element.innerText);
+			}
 		}
 
 		return {
-			countReviews,
+			// countReviews,
 			fullNames,
 			postDates,
 			starRatings,
@@ -92,7 +94,7 @@ let scrape = async(url) => {
 
 	// Restructure data for easy csv conversion
 	let data = [];
-	for (var i=0; i<countReviews; i++) {
+	for (let i=0; i<countReviews; i++) {
 		data.push({
 			'fullNames': reviews.fullNames[i],
 			'postDates': reviews.postDates[i],
@@ -101,7 +103,7 @@ let scrape = async(url) => {
 			'totalReviews': metadata.totalReviews,
 			'aggregateRating': metadata.aggregateRating
 		});
-	};
+	}
 
 	browser.close();
 
@@ -111,5 +113,8 @@ let scrape = async(url) => {
 		data
 	};
 };
+
+// scrape('https://www.google.com/maps/place/Enhanze+Medical+Aesthetics+%26+Laser+Clinic/@3.126224,101.6415473,17z/data=!4m7!3m6!1s0x31cc49695e894d4d:0xdd00855b10491174!8m2!3d3.126224!4d101.643736!9m1!1b1')
+// 	.then(result=> {console.log(result)});
 
 exports.scrape = scrape;
